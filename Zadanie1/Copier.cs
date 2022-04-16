@@ -26,7 +26,7 @@ namespace Zadanie1
             }
         }
 
-        public void Scan(out IDocument document, IDocument.FormatType formatType)
+        public void Scan(out IDocument document, IDocument.FormatType formatType = IDocument.FormatType.JPG)
         {
             document = null;
             if (IDevice.State.on == state)
@@ -45,10 +45,19 @@ namespace Zadanie1
                     document = new ImageDocument($"ImageScan{ScanCounter}.jpg");
                 }
                 ScanCounter++;
+                Console.WriteLine("{0} Scan: {1}", dateTime, document.GetFileName());
             }
             else
             {
                 return;
+            }
+        }
+        public void ScanAndPrint()
+        {
+            if (IDevice.State.on == state)
+            {               
+                Scan(out IDocument document);
+                Print(in document);
             }
         }
     }
