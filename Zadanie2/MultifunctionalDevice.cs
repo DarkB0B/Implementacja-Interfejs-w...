@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Zadanie2
 {
-    public class MultifunctionalDevice : BaseDevice, IMultifunctionalDevice
+    public class MultifunctionalDevice : Copier, IFax
     {
-        public int PrintCounter = 1;
-        public int FaxCounter = 1;
-        public int ScanCounter = 1;
+        
+        public int FaxCounter = 0;
+        
 
         public void Fax(in IDocument document,string recipient)
         {
@@ -25,45 +25,7 @@ namespace Zadanie2
                 return;
             }
         }
-        public void Print(in IDocument document)
-        {
-            if (IDevice.State.on == state)
-            {
-                DateTime dateTime = DateTime.Now;
-                Console.WriteLine("{0} Print: {1}", dateTime, document.GetFileName());
-                PrintCounter++;
-            }
-            else
-            {
-                return;
-            }
-        }
-
-        public void Scan(out IDocument document, IDocument.FormatType formatType)
-        {
-            document = null;
-            if (IDevice.State.on == state)
-            {
-                DateTime dateTime = DateTime.Now;
-                if (formatType == IDocument.FormatType.PDF)
-                {
-                    document = new PDFDocument($"PDFScan{ScanCounter}.pdf");
-                }
-                else if (formatType == IDocument.FormatType.TXT)
-                {
-                    document = new TextDocument($"TextScan{ScanCounter}.txt");
-                }
-                else if (formatType == IDocument.FormatType.JPG)
-                {
-                    document = new ImageDocument($"ImageScan{ScanCounter}.jpg");
-                }
-                ScanCounter++;
-                Console.WriteLine("{0} Scan: {1}", dateTime, document.GetFileName());
-            }
-            else
-            {
-                return;
-            }
-        }
+        
+        
     }
 }

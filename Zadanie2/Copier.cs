@@ -8,8 +8,8 @@ namespace Zadanie2
 {
     public class Copier : BaseDevice, IPrinter, IScanner
     {
-        public int PrintCounter { get; set; } = 1;
-        public int ScanCounter { get; set; } = 1;
+        public int PrintCounter { get; set; } = 0;
+        public int ScanCounter { get; set; } = 0;
 
          
         public void Print(in IDocument document)

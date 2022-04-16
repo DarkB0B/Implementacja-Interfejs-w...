@@ -66,8 +66,5 @@ namespace Zadanie2
         void Fax(in IDocument document, string recipient);
     }
 
-    public interface IMultifunctionalDevice :  IFax, IPrinter, IScanner
-    {
-
-    }
+    
 }
