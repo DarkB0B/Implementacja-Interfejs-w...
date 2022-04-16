@@ -7,9 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zadanie1", "Zadanie1\Zadani
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zadanie1UnitTests", "Zadanie1UnitTests\Zadanie1UnitTests.csproj", "{1FEBF0C5-4B5C-4DAC-BDC7-61FE8BA5C23C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zadanie2UnitTests", "Zadanie2UnitTests\Zadanie2UnitTests.csproj", "{20029300-A2C1-4276-A130-FC5376F6553F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zadanie2UnitTests", "Zadanie2UnitTests\Zadanie2UnitTests.csproj", "{20029300-A2C1-4276-A130-FC5376F6553F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zadanie2", "Zadanie2\Zadanie2.csproj", "{8EE826B0-9DE1-4603-997D-294A8CCE3A3D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zadanie2", "Zadanie2\Zadanie2.csproj", "{8EE826B0-9DE1-4603-997D-294A8CCE3A3D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zadanie 3", "Zadanie 3\Zadanie 3.csproj", "{4F9E65F6-5B42-4218-98D6-1E87C029AA0D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{8EE826B0-9DE1-4603-997D-294A8CCE3A3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8EE826B0-9DE1-4603-997D-294A8CCE3A3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8EE826B0-9DE1-4603-997D-294A8CCE3A3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F9E65F6-5B42-4218-98D6-1E87C029AA0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F9E65F6-5B42-4218-98D6-1E87C029AA0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F9E65F6-5B42-4218-98D6-1E87C029AA0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F9E65F6-5B42-4218-98D6-1E87C029AA0D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
