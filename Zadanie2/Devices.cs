@@ -61,5 +61,13 @@ namespace Zadanie2
         // w przeciwnym przypadku nic się dzieje
         void Scan(out IDocument document, IDocument.FormatType formatType);
     }
+    public interface IFax : IDevice
+    {
+        void Fax(in IDocument document, string recipient);
+    }
 
+    public interface IMultifunctionalDevice :  IFax, IPrinter, IScanner
+    {
+
+    }
 }

@@ -4,17 +4,30 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Zadanie1
+namespace Zadanie2
 {
-    public class Copier : BaseDevice, IPrinter, IScanner
+    public class MultifunctionalDevice : BaseDevice, IMultifunctionalDevice
     {
-        public int PrintCounter { get; set; } = 0;
-        public int ScanCounter { get; set; } = 0;
+        public int PrintCounter = 1;
+        public int FaxCounter = 1;
+        public int ScanCounter = 1;
 
-         
+        public void Fax(in IDocument document,string recipient)
+        {
+            if (IDevice.State.on == state)
+            {
+                DateTime dateTime = DateTime.Now;
+                Console.WriteLine("{0} Fax has been sent to {1}", dateTime, recipient);
+                FaxCounter++;
+            }
+            else
+            {
+                return;
+            }
+        }
         public void Print(in IDocument document)
         {
-            if(IDevice.State.on == state)
+            if (IDevice.State.on == state)
             {
                 DateTime dateTime = DateTime.Now;
                 Console.WriteLine("{0} Print: {1}", dateTime, document.GetFileName());
@@ -26,13 +39,13 @@ namespace Zadanie1
             }
         }
 
-        public void Scan(out IDocument document, IDocument.FormatType formatType = IDocument.FormatType.JPG)
+        public void Scan(out IDocument document, IDocument.FormatType formatType)
         {
             document = null;
             if (IDevice.State.on == state)
             {
                 DateTime dateTime = DateTime.Now;
-                if(formatType == IDocument.FormatType.PDF)
+                if (formatType == IDocument.FormatType.PDF)
                 {
                     document = new PDFDocument($"PDFScan{ScanCounter}.pdf");
                 }
@@ -50,14 +63,6 @@ namespace Zadanie1
             else
             {
                 return;
-            }
-        }
-        public void ScanAndPrint()
-        {
-            if (IDevice.State.on == state)
-            {               
-                Scan(out IDocument document);
-                Print(in document);
             }
         }
     }
