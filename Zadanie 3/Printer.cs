@@ -17,7 +17,7 @@ namespace Zadanie_3
             {
                 DateTime dateTime = DateTime.Now;
                 Console.WriteLine("{0} Print: {1}", dateTime, document.GetFileName());
-                PrintCounter++;
+                PrintCounter++; 
             }
             else
             {

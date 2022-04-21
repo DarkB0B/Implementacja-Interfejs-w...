@@ -8,7 +8,7 @@ namespace Zadanie_3
 {
     public class Scanner : BaseDevice, IScanner
     {
-        public int ScanCounter { get; set; } = 0;
+        public int ScanCounter { get; private set; } = 0;
         
         
         public void Scan(out IDocument document, IDocument.FormatType formatType)

@@ -49,8 +49,9 @@ namespace Zadanie_3
         {
             if (IDevice.State.on == state)
             {
-                scanner.Scan(out IDocument document, IDocument.FormatType.JPG);
-                printer.Print(document);
+
+                this.Scan(out IDocument document, IDocument.FormatType.JPG);
+                this.Print(document);
             }
             else
             {
