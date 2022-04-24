@@ -54,7 +54,9 @@ namespace Zadanie_3
         {
             if (IDevice.State.on == state)
             {
+                copier.PowerOn();
                 copier.ScanAndPrint();
+                copier.PowerOff();
             }
             else
             {
