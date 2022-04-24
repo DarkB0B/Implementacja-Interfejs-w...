@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace Zadanie_3
 {
-    internal class MultidimensionalDevice : BaseDevice
+    public class MultidimensionalDevice : BaseDevice
     {
         Copier copier = new Copier();
         Fax fax = new Fax();
         public int ScanCounter => copier.ScanCounter;
         public int PrintCounter => copier.PrintCounter;
         public int FaxCounter => fax.FaxCounter;
-        public void Scan(out IDocument document, IDocument.FormatType formatType)
+        public void Scan(out IDocument document, IDocument.FormatType formatType = IDocument.FormatType.JPG)
         {
             if (IDevice.State.on == state)
             {

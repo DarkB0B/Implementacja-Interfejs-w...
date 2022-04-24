@@ -3,7 +3,7 @@ using System;
 using Zadanie_3;
 using System.IO;
 
-namespace Zadanie3UnitTests
+namespace Zadanie1UnitTests
 {
 
     public class ConsoleRedirectionToStringWriter : IDisposable
@@ -51,6 +51,23 @@ namespace Zadanie3UnitTests
 
             Assert.AreEqual(IDevice.State.on, copier.GetState());
         }
+        [TestMethod]
+        public void Multi_GetState_StateOff()
+        {
+            var multi = new MultidimensionalDevice();
+            multi.PowerOff();
+
+            Assert.AreEqual(IDevice.State.off, multi.GetState());
+        }
+
+        [TestMethod]
+        public void Multi_GetState_StateOn()
+        {
+            var multi = new MultidimensionalDevice();
+            multi.PowerOn();
+
+            Assert.AreEqual(IDevice.State.on, multi.GetState());
+        }
 
 
         // weryfikacja, czy po wywo³aniu metody `Print` i w³¹czonej kopiarce w napisie pojawia siê s³owo `Print`
@@ -67,6 +84,38 @@ namespace Zadanie3UnitTests
             {
                 IDocument doc1 = new PDFDocument("aaa.pdf");
                 copier.Print(in doc1);
+                Assert.IsTrue(consoleOutput.GetOutput().Contains("Print"));
+            }
+            Assert.AreEqual(currentConsoleOut, Console.Out);
+        }
+        [TestMethod]
+        public void Multi_Fax_DeviceOn()
+        {
+            var multi = new MultidimensionalDevice();
+            multi.PowerOn();
+
+            var currentConsoleOut = Console.Out;
+            currentConsoleOut.Flush();
+            using (var consoleOutput = new ConsoleRedirectionToStringWriter())
+            {
+                IDocument doc1 = new PDFDocument("aaa.pdf");
+                multi.Fax(in doc1, "aa");
+                Assert.IsTrue(consoleOutput.GetOutput().Contains("Fax"));
+            }
+            Assert.AreEqual(currentConsoleOut, Console.Out);
+        }
+        [TestMethod]
+        public void Multi_Print_DeviceOn()
+        {
+            var multi = new MultidimensionalDevice();
+            multi.PowerOn();
+
+            var currentConsoleOut = Console.Out;
+            currentConsoleOut.Flush();
+            using (var consoleOutput = new ConsoleRedirectionToStringWriter())
+            {
+                IDocument doc1 = new PDFDocument("aaa.pdf");
+                multi.Print(in doc1);
                 Assert.IsTrue(consoleOutput.GetOutput().Contains("Print"));
             }
             Assert.AreEqual(currentConsoleOut, Console.Out);
@@ -90,6 +139,38 @@ namespace Zadanie3UnitTests
             }
             Assert.AreEqual(currentConsoleOut, Console.Out);
         }
+        [TestMethod]
+        public void Multi_Fax_DeviceOff()
+        {
+            var multi = new MultidimensionalDevice();
+            multi.PowerOff();
+
+            var currentConsoleOut = Console.Out;
+            currentConsoleOut.Flush();
+            using (var consoleOutput = new ConsoleRedirectionToStringWriter())
+            {
+                IDocument doc1 = new PDFDocument("aaa.pdf");
+                multi.Fax(in doc1, "aaa");
+                Assert.IsFalse(consoleOutput.GetOutput().Contains("Fax"));
+            }
+            Assert.AreEqual(currentConsoleOut, Console.Out);
+        }
+        [TestMethod]
+        public void Multi_Print_DeviceOff()
+        {
+            var multi = new MultidimensionalDevice();
+            multi.PowerOff();
+
+            var currentConsoleOut = Console.Out;
+            currentConsoleOut.Flush();
+            using (var consoleOutput = new ConsoleRedirectionToStringWriter())
+            {
+                IDocument doc1 = new PDFDocument("aaa.pdf");
+                multi.Print(in doc1);
+                Assert.IsFalse(consoleOutput.GetOutput().Contains("Print"));
+            }
+            Assert.AreEqual(currentConsoleOut, Console.Out);
+        }
 
         // weryfikacja, czy po wywo³aniu metody `Scan` i wy³¹czonej kopiarce w napisie NIE pojawia siê s³owo `Scan`
         // wymagane przekierowanie konsoli do strumienia StringWriter
@@ -109,6 +190,22 @@ namespace Zadanie3UnitTests
             }
             Assert.AreEqual(currentConsoleOut, Console.Out);
         }
+        [TestMethod]
+        public void Multi_Scan_DeviceOff()
+        {
+            var multi = new MultidimensionalDevice();
+            multi.PowerOff();
+
+            var currentConsoleOut = Console.Out;
+            currentConsoleOut.Flush();
+            using (var consoleOutput = new ConsoleRedirectionToStringWriter())
+            {
+                IDocument doc1;
+                multi.Scan(out doc1);
+                Assert.IsFalse(consoleOutput.GetOutput().Contains("Scan"));
+            }
+            Assert.AreEqual(currentConsoleOut, Console.Out);
+        }
 
         // weryfikacja, czy po wywo³aniu metody `Scan` i wy³¹czonej kopiarce w napisie pojawia siê s³owo `Scan`
         // wymagane przekierowanie konsoli do strumienia StringWriter
@@ -124,6 +221,22 @@ namespace Zadanie3UnitTests
             {
                 IDocument doc1;
                 copier.Scan(out doc1);
+                Assert.IsTrue(consoleOutput.GetOutput().Contains("Scan"));
+            }
+            Assert.AreEqual(currentConsoleOut, Console.Out);
+        }
+        [TestMethod]
+        public void Multi_Scan_DeviceOn()
+        {
+            var multi = new MultidimensionalDevice();
+            multi.PowerOn();
+
+            var currentConsoleOut = Console.Out;
+            currentConsoleOut.Flush();
+            using (var consoleOutput = new ConsoleRedirectionToStringWriter())
+            {
+                IDocument doc1;
+                multi.Scan(out doc1);
                 Assert.IsTrue(consoleOutput.GetOutput().Contains("Scan"));
             }
             Assert.AreEqual(currentConsoleOut, Console.Out);
@@ -156,6 +269,31 @@ namespace Zadanie3UnitTests
             }
             Assert.AreEqual(currentConsoleOut, Console.Out);
         }
+        [TestMethod]
+        public void Multi_Scan_FormatTypeDocument()
+        {
+            var multi = new MultidimensionalDevice();
+            multi.PowerOn();
+
+            var currentConsoleOut = Console.Out;
+            currentConsoleOut.Flush();
+            using (var consoleOutput = new ConsoleRedirectionToStringWriter())
+            {
+                IDocument doc1;
+                multi.Scan(out doc1, formatType: IDocument.FormatType.JPG);
+                Assert.IsTrue(consoleOutput.GetOutput().Contains("Scan"));
+                Assert.IsTrue(consoleOutput.GetOutput().Contains(".jpg"));
+
+                multi.Scan(out doc1, formatType: IDocument.FormatType.TXT);
+                Assert.IsTrue(consoleOutput.GetOutput().Contains("Scan"));
+                Assert.IsTrue(consoleOutput.GetOutput().Contains(".txt"));
+
+                multi.Scan(out doc1, formatType: IDocument.FormatType.PDF);
+                Assert.IsTrue(consoleOutput.GetOutput().Contains("Scan"));
+                Assert.IsTrue(consoleOutput.GetOutput().Contains(".pdf"));
+            }
+            Assert.AreEqual(currentConsoleOut, Console.Out);
+        }
 
 
         // weryfikacja, czy po wywo³aniu metody `ScanAndPrint` i wy³¹czonej kopiarce w napisie pojawiaj¹ siê s³owa `Print`
@@ -177,6 +315,22 @@ namespace Zadanie3UnitTests
             }
             Assert.AreEqual(currentConsoleOut, Console.Out);
         }
+        [TestMethod]
+        public void Multi_ScanAndPrint_DeviceOn()
+        {
+            var multi = new MultidimensionalDevice();
+            multi.PowerOn();
+
+            var currentConsoleOut = Console.Out;
+            currentConsoleOut.Flush();
+            using (var consoleOutput = new ConsoleRedirectionToStringWriter())
+            {
+                multi.ScanAndPrint();
+                Assert.IsTrue(consoleOutput.GetOutput().Contains("Scan"));
+                Assert.IsTrue(consoleOutput.GetOutput().Contains("Print"));
+            }
+            Assert.AreEqual(currentConsoleOut, Console.Out);
+        }
 
         // weryfikacja, czy po wywo³aniu metody `ScanAndPrint` i wy³¹czonej kopiarce w napisie NIE pojawia siê s³owo `Print`
         // ani s³owo `Scan`
@@ -192,6 +346,22 @@ namespace Zadanie3UnitTests
             using (var consoleOutput = new ConsoleRedirectionToStringWriter())
             {
                 copier.ScanAndPrint();
+                Assert.IsFalse(consoleOutput.GetOutput().Contains("Scan"));
+                Assert.IsFalse(consoleOutput.GetOutput().Contains("Print"));
+            }
+            Assert.AreEqual(currentConsoleOut, Console.Out);
+        }
+        [TestMethod]
+        public void Multi_ScanAndPrint_DeviceOff()
+        {
+            var multi = new MultidimensionalDevice();
+            multi.PowerOff();
+
+            var currentConsoleOut = Console.Out;
+            currentConsoleOut.Flush();
+            using (var consoleOutput = new ConsoleRedirectionToStringWriter())
+            {
+                multi.ScanAndPrint();
                 Assert.IsFalse(consoleOutput.GetOutput().Contains("Scan"));
                 Assert.IsFalse(consoleOutput.GetOutput().Contains("Print"));
             }
@@ -222,6 +392,30 @@ namespace Zadanie3UnitTests
             // 5 wydruków, gdy urz¹dzenie w³¹czone
             Assert.AreEqual(5, copier.PrintCounter);
         }
+        [TestMethod]
+        public void Multi_PrintCounter()
+        {
+            var multi = new MultidimensionalDevice();
+            multi.PowerOn();
+
+            IDocument doc1 = new PDFDocument("aaa.pdf");
+            multi.Print(in doc1);
+            IDocument doc2 = new TextDocument("aaa.txt");
+            multi.Print(in doc2);
+            IDocument doc3 = new ImageDocument("aaa.jpg");
+            multi.Print(in doc3);
+
+            multi.PowerOff();
+            multi.Print(in doc3);
+            multi.Scan(out doc1);
+            multi.PowerOn();
+
+            multi.ScanAndPrint();
+            multi.ScanAndPrint();
+
+            // 5 wydruków, gdy urz¹dzenie w³¹czone
+            Assert.AreEqual(5, multi.PrintCounter);
+        }
 
         [TestMethod]
         public void Copier_ScanCounter()
@@ -248,6 +442,33 @@ namespace Zadanie3UnitTests
             // 4 skany, gdy urz¹dzenie w³¹czone
             Assert.AreEqual(4, copier.ScanCounter);
         }
+
+        [TestMethod]
+        public void Multi_ScanCounter()
+        {
+            var multi = new MultidimensionalDevice();
+            multi.PowerOn();
+
+            IDocument doc1;
+            multi.Scan(out doc1);
+            IDocument doc2;
+            multi.Scan(out doc2);
+
+            IDocument doc3 = new ImageDocument("aaa.jpg");
+            multi.Print(in doc3);
+
+            multi.PowerOff();
+            multi.Print(in doc3);
+            multi.Scan(out doc1);
+            multi.PowerOn();
+
+            multi.ScanAndPrint();
+            multi.ScanAndPrint();
+
+            // 4 skany, gdy urz¹dzenie w³¹czone
+            Assert.AreEqual(4, multi.ScanCounter);
+        }
+
 
         [TestMethod]
         public void Copier_PowerOnCounter()
@@ -280,6 +501,38 @@ namespace Zadanie3UnitTests
 
             // 3 w³¹czenia
             Assert.AreEqual(3, copier.Counter);
+        }
+        [TestMethod]
+        public void Multi_PowerOnCounter()
+        {
+            var multi = new MultidimensionalDevice();
+            multi.PowerOn();
+            multi.PowerOn();
+            multi.PowerOn();
+
+            IDocument doc1;
+            multi.Scan(out doc1);
+            IDocument doc2;
+            multi.Scan(out doc2);
+
+            multi.PowerOff();
+            multi.PowerOff();
+            multi.PowerOff();
+            multi.PowerOn();
+
+            IDocument doc3 = new ImageDocument("aaa.jpg");
+            multi.Print(in doc3);
+
+            multi.PowerOff();
+            multi.Print(in doc3);
+            multi.Scan(out doc1);
+            multi.PowerOn();
+
+            multi.ScanAndPrint();
+            multi.ScanAndPrint();
+
+            // 3 w³¹czenia
+            Assert.AreEqual(3, multi.Counter);
         }
 
     }
